@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Services\" />
+      <ProjectReference Include="..\BankingManagement.Repository\BankingManagement.Repository.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\BankingManagement.Repository\BankingManagement.Repository.csproj" />
+      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     </ItemGroup>
 
 </Project>

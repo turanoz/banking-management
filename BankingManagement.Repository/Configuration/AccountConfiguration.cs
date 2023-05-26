@@ -9,6 +9,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
     public void Configure(EntityTypeBuilder<Account> builder)
     {
         builder.HasKey(a => a.AccountId);
+        builder.Property(a => a.AccountId).ValueGeneratedOnAdd();
 
         builder.Property(a => a.AccountNumber)
             .IsRequired();

@@ -1,4 +1,10 @@
+using BankingManagement.Core.Repositories;
+using BankingManagement.Core.Services;
+using BankingManagement.Core.UnitOfWorks;
 using BankingManagement.Repository;
+using BankingManagement.Repository.Repositories;
+using BankingManagement.Repository.UnitOfWorks;
+using BankingManagement.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,10 +13,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAutoMapper(typeof(Program));
+
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAuditLogService, AuditLogService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
-
 
 
 // Configure the HTTP request pipeline.

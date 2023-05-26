@@ -9,6 +9,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
     public void Configure(EntityTypeBuilder<Role> builder)
     {
         builder.HasKey(r => r.RoleId);
+        builder.Property(r => r.RoleId).ValueGeneratedOnAdd();
 
         builder.Property(r => r.Name)
             .IsRequired()

@@ -9,6 +9,7 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
         builder.HasKey(t => t.TransactionId);
+        builder.Property(u=>u.TransactionId).ValueGeneratedOnAdd();
 
         builder.Property(t => t.TransactionType)
             .IsRequired()

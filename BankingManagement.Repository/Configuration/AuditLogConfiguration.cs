@@ -9,6 +9,7 @@ public class AuditLogConfiguration : IEntityTypeConfiguration<AuditLog>
     public void Configure(EntityTypeBuilder<AuditLog> builder)
     {
         builder.HasKey(a => a.AuditId);
+        builder.Property(a => a.AuditId).ValueGeneratedOnAdd();
 
         builder.Property(a => a.Action)
             .IsRequired()
