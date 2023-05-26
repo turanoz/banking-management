@@ -32,8 +32,16 @@ public class UserService : IUserService
 
     public async Task<UserDto> CreateUserAsync(UserCreateDto newUser)
     {
-        // Password hashing should be done here
         var userEntity = _mapper.Map<User>(newUser);
+        userEntity.RoleId=  Guid.Parse("4ab7aa96-0179-4cc1-b94a-ae19718e8e0b");
+        
+        var salt = BCrypt.Net.BCrypt.GenerateSalt();
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(newUser.Password, salt);
+
+        userEntity.PasswordHash = passwordHash;
+        userEntity.Salt = salt;
+        
+        
         await _unitOfWork.UserRepository.CreateAsync(userEntity);
         await _unitOfWork.CommitAsync();
         return _mapper.Map<UserDto>(userEntity);

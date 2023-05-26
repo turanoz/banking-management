@@ -13,7 +13,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u=>u.UserId).ValueGeneratedOnAdd();
 
         builder.Property(u => u.Avatar)
-            .IsRequired()
+            .IsRequired(false)
             .HasMaxLength(255);
         
         builder.Property(u => u.FirstName)

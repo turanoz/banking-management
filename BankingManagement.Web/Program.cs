@@ -4,6 +4,7 @@ using BankingManagement.Core.UnitOfWorks;
 using BankingManagement.Repository;
 using BankingManagement.Repository.Repositories;
 using BankingManagement.Repository.UnitOfWorks;
+using BankingManagement.Service.AutoMapper;
 using BankingManagement.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 

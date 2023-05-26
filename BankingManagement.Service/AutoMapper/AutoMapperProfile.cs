@@ -15,7 +15,7 @@ public class AutoMapperProfile : Profile
         CreateMap<User, UserDto>()
             .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.Name));
 
-        CreateMap<UserCreateDto, User>(); // Add password hashing here if necessary
+        CreateMap<UserCreateDto, User>().ReverseMap();
 
         CreateMap<UserUpdateDto, User>();
         
