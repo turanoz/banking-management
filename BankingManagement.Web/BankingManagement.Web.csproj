@@ -6,4 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\BankingManagement.Service\BankingManagement.Service.csproj" />
+    </ItemGroup>
+
 </Project>
