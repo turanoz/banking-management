@@ -1,12 +1,12 @@
-﻿using BankingManagement.Core.DTOs.Role;
+﻿using BankingManagement.Core.DTOs.Response;
+using BankingManagement.Core.DTOs.Role;
 
 namespace BankingManagement.Core.Services;
 
 public interface IRoleService
 {
-    Task<IEnumerable<RoleDto>> GetAllRolesAsync();
-    Task<RoleDto> GetRoleByIdAsync(Guid id);
-    Task<RoleDto> CreateRoleAsync(RoleCreateDto newRole);
-    Task<bool> DeleteRoleAsync(Guid id);
-    // Note: Updating a role name might have wide-ranging effects, consider this carefully
+    Task<CustomResponseDto<IEnumerable<RoleDto>>> GetAllRolesAsync();
+    Task<CustomResponseDto<RoleDto>> GetRoleByIdAsync(Guid id);
+    Task<CustomResponseDto<RoleDto>> CreateRoleAsync(RoleCreateDto newRole);
+    Task<CustomResponseDto<bool>> DeleteRoleAsync(Guid id);
 }

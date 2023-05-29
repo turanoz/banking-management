@@ -1,9 +1,33 @@
-﻿@model IEnumerable<BankingManagement.Core.DTOs.User.UserDto>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using BankingManagement.Core.DTOs.Response
+@model BankingManagement.Core.DTOs.Response.CustomResponseDto<IEnumerable<BankingManagement.Core.DTOs.User.UserDto>>
 @{
     ViewData["Title"] = "Users";
 }
 <h1>Users</h1>
 <a class="btn btn-primary" asp-controller="User" asp-action="Create">Yeni</a>
+
+@switch (Model.Status)
+{
+    case ResponseStatus.Success:
+        <div class="alert alert-success" role="alert">
+            @Model.Message
+        </div>
+        break;
+    case ResponseStatus.Error:
+        <div class="alert alert-danger" role="alert">
+            @Model.Message
+        </div>
+        break;
+    case ResponseStatus.Info:
+        <div class="alert alert-info" role="alert">
+            @Model.Message
+        </div>
+        break;
+    default:
+        <div></div>
+        break;
+}
 
 <table class="table">
     <tr>
@@ -16,7 +40,7 @@
         <!-- Add more columns as needed -->
         <th>Actions</th>
     </tr>
-    @foreach (var user in Model)
+    @foreach (var user in Model.Data)
     {
         <tr>
             <td>

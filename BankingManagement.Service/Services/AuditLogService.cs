@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BankingManagement.Core.DTOs.AuditLog;
+using BankingManagement.Core.DTOs.Response;
 using BankingManagement.Core.Models;
 using BankingManagement.Core.Services;
 using BankingManagement.Core.UnitOfWorks;
@@ -18,23 +19,26 @@ public class AuditLogService : IAuditLogService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<AuditLogDto>> GetAllAuditLogsAsync()
+    public async Task<CustomResponseDto<IEnumerable<AuditLogDto>>> GetAllAuditLogsAsync()
     {
         var auditLogs = await _unitOfWork.AuditLogRepository.GetAll().ToListAsync();
-        return _mapper.Map<IEnumerable<AuditLogDto>>(auditLogs);
+        return CustomResponseDto<IEnumerable<AuditLogDto>>.Success(_mapper.Map<IEnumerable<AuditLogDto>>(auditLogs),
+            "AuditLogs found.");
     }
 
-    public async Task<AuditLogDto> GetAuditLogByIdAsync(Guid id)
+    public async Task<CustomResponseDto<AuditLogDto>> GetAuditLogByIdAsync(Guid id)
     {
         var auditLog = await _unitOfWork.AuditLogRepository.GetByIdAsync(id);
-        return _mapper.Map<AuditLogDto>(auditLog);
+        return auditLog is null
+            ? CustomResponseDto<AuditLogDto>.Error("AuditLog not found.")
+            : CustomResponseDto<AuditLogDto>.Success(_mapper.Map<AuditLogDto>(auditLog), "AuditLog found.");
     }
 
-    public async Task<AuditLogDto> CreateAuditLogAsync(AuditLogCreateDto newAuditLog)
+    public async Task<CustomResponseDto<AuditLogDto>> CreateAuditLogAsync(AuditLogCreateDto newAuditLog)
     {
         var auditLogEntity = _mapper.Map<AuditLog>(newAuditLog);
         await _unitOfWork.AuditLogRepository.CreateAsync(auditLogEntity);
         await _unitOfWork.CommitAsync();
-        return _mapper.Map<AuditLogDto>(auditLogEntity);
+        return CustomResponseDto<AuditLogDto>.Success(_mapper.Map<AuditLogDto>(auditLogEntity), "AuditLog created.");
     }
 }

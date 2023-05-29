@@ -1,11 +1,11 @@
 ﻿using BankingManagement.Core.DTOs.AuditLog;
+using BankingManagement.Core.DTOs.Response;
 
 namespace BankingManagement.Core.Services;
 
 public interface IAuditLogService
 {
-    Task<IEnumerable<AuditLogDto>> GetAllAuditLogsAsync();
-    Task<AuditLogDto> GetAuditLogByIdAsync(Guid id);
-    Task<AuditLogDto> CreateAuditLogAsync(AuditLogCreateDto newAuditLog);
-    // Usually, audit logs don't have update/delete operations, but you can add if necessary
+    Task<CustomResponseDto<IEnumerable<AuditLogDto>>> GetAllAuditLogsAsync();
+    Task<CustomResponseDto<AuditLogDto>> GetAuditLogByIdAsync(Guid id);
+    Task<CustomResponseDto<AuditLogDto>> CreateAuditLogAsync(AuditLogCreateDto newAuditLog);
 }

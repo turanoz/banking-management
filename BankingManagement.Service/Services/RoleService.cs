@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BankingManagement.Core.DTOs.Response;
 using BankingManagement.Core.DTOs.Role;
 using BankingManagement.Core.Models;
 using BankingManagement.Core.Services;
@@ -18,35 +19,39 @@ public class RoleService : IRoleService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<RoleDto>> GetAllRolesAsync()
+    public async Task<CustomResponseDto<IEnumerable<RoleDto>>> GetAllRolesAsync()
     {
         var roles = await _unitOfWork.RoleRepository.GetAll().ToListAsync();
-        return _mapper.Map<IEnumerable<RoleDto>>(roles);
+        return CustomResponseDto<IEnumerable<RoleDto>>.Success(_mapper.Map<IEnumerable<RoleDto>>(roles),
+            "Roles found.");
     }
 
-    public async Task<RoleDto> GetRoleByIdAsync(Guid id)
+    public async Task<CustomResponseDto<RoleDto>> GetRoleByIdAsync(Guid id)
     {
         var role = await _unitOfWork.RoleRepository.GetByIdAsync(id);
-        return _mapper.Map<RoleDto>(role);
+        return role is null
+            ? CustomResponseDto<RoleDto>.Error("Role not found.")
+            : CustomResponseDto<RoleDto>.Success(_mapper.Map<RoleDto>(role), "Role found.");
     }
 
-    public async Task<RoleDto> CreateRoleAsync(RoleCreateDto newRole)
+    public async Task<CustomResponseDto<RoleDto>> CreateRoleAsync(RoleCreateDto newRole)
     {
         var roleEntity = _mapper.Map<Role>(newRole);
         await _unitOfWork.RoleRepository.CreateAsync(roleEntity);
         await _unitOfWork.CommitAsync();
-        return _mapper.Map<RoleDto>(roleEntity);
+        return CustomResponseDto<RoleDto>.Success(_mapper.Map<RoleDto>(roleEntity), "Role created.");
     }
 
-    public async Task<bool> DeleteRoleAsync(Guid id)
+    public async Task<CustomResponseDto<bool>> DeleteRoleAsync(Guid id)
     {
         var roleEntity = await _unitOfWork.RoleRepository.GetByIdAsync(id);
-        if (roleEntity != null)
+        if (roleEntity is null)
         {
-            _unitOfWork.RoleRepository.Delete(roleEntity);
-            await _unitOfWork.CommitAsync();
-            return true;
+            return CustomResponseDto<bool>.Error("Role not found.");
         }
-        return false;
+
+        _unitOfWork.RoleRepository.Delete(roleEntity);
+        await _unitOfWork.CommitAsync();
+        return CustomResponseDto<bool>.Success(true, "Role deleted.");
     }
 }

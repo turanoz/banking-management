@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BankingManagement.Core.DTOs.Response;
 using BankingManagement.Core.DTOs.Transaction;
 using BankingManagement.Core.Models;
 using BankingManagement.Core.Services;
@@ -18,23 +19,28 @@ public class TransactionService : ITransactionService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<TransactionDto>> GetAllTransactionsAsync()
+    public async Task<CustomResponseDto<IEnumerable<TransactionDto>>> GetAllTransactionsAsync()
     {
         var transactions = await _unitOfWork.TransactionRepository.GetAll().ToListAsync();
-        return _mapper.Map<IEnumerable<TransactionDto>>(transactions);
+        return CustomResponseDto<IEnumerable<TransactionDto>>.Success(
+            _mapper.Map<IEnumerable<TransactionDto>>(transactions),
+            "Transactions found.");
     }
 
-    public async Task<TransactionDto> GetTransactionByIdAsync(Guid id)
+    public async Task<CustomResponseDto<TransactionDto>> GetTransactionByIdAsync(Guid id)
     {
         var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
-        return _mapper.Map<TransactionDto>(transaction);
+        return transaction is null
+            ? CustomResponseDto<TransactionDto>.Error("Transaction not found.")
+            : CustomResponseDto<TransactionDto>.Success(_mapper.Map<TransactionDto>(transaction), "Transaction found.");
     }
 
-    public async Task<TransactionDto> CreateTransactionAsync(TransactionCreateDto newTransaction)
+    public async Task<CustomResponseDto<TransactionDto>> CreateTransactionAsync(TransactionCreateDto newTransaction)
     {
         var transactionEntity = _mapper.Map<Transaction>(newTransaction);
         await _unitOfWork.TransactionRepository.CreateAsync(transactionEntity);
         await _unitOfWork.CommitAsync();
-        return _mapper.Map<TransactionDto>(transactionEntity);
+        return CustomResponseDto<TransactionDto>.Success(_mapper.Map<TransactionDto>(transactionEntity),
+            "Transaction created.");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BankingManagement.Core.DTOs.Response;
 using BankingManagement.Core.DTOs.User;
 using BankingManagement.Core.Models;
 using BankingManagement.Core.Services;
@@ -10,7 +11,7 @@ namespace BankingManagement.Service.Services;
 public class UserService : IUserService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper; // Use AutoMapper for mapping between entities and DTOs
+    private readonly IMapper _mapper;
 
     public UserService(IUnitOfWork unitOfWork, IMapper mapper)
     {
@@ -18,54 +19,58 @@ public class UserService : IUserService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+    public async Task<CustomResponseDto<IEnumerable<UserDto>>> GetAllUsersAsync()
     {
         var users = await _unitOfWork.UserRepository.GetAll().ToListAsync();
-        return _mapper.Map<IEnumerable<UserDto>>(users);
+        return CustomResponseDto<IEnumerable<UserDto>>.Success(_mapper.Map<IEnumerable<UserDto>>(users),
+            "Users found.");
     }
 
-    public async Task<UserDto> GetUserByIdAsync(Guid id)
+    public async Task<CustomResponseDto<UserDto>> GetUserByIdAsync(Guid id)
     {
         var user = await _unitOfWork.UserRepository.GetByIdAsync(id);
-        return _mapper.Map<UserDto>(user);
+        return user is null
+            ? CustomResponseDto<UserDto>.Error("User not found.")
+            : CustomResponseDto<UserDto>.Success(_mapper.Map<UserDto>(user), "User found.");
     }
 
-    public async Task<UserDto> CreateUserAsync(UserCreateDto newUser)
+    public async Task<CustomResponseDto<UserDto>> CreateUserAsync(UserCreateDto newUser)
     {
         var userEntity = _mapper.Map<User>(newUser);
-        userEntity.RoleId=  Guid.Parse("4ab7aa96-0179-4cc1-b94a-ae19718e8e0b");
-        
+        userEntity.RoleId = Guid.Parse("4ab7aa96-0179-4cc1-b94a-ae19718e8e0b");
+
         var salt = BCrypt.Net.BCrypt.GenerateSalt();
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(newUser.Password, salt);
 
         userEntity.PasswordHash = passwordHash;
         userEntity.Salt = salt;
-        
-        
+
+
         await _unitOfWork.UserRepository.CreateAsync(userEntity);
         await _unitOfWork.CommitAsync();
-        return _mapper.Map<UserDto>(userEntity);
+        return CustomResponseDto<UserDto>.Success(_mapper.Map<UserDto>(userEntity), "User created.");
     }
 
-    public async Task<UserDto> UpdateUserAsync(Guid id, UserUpdateDto updatedUser)
+    public async Task<CustomResponseDto<UserDto>> UpdateUserAsync(Guid id, UserUpdateDto updatedUser)
     {
         var userEntity = await _unitOfWork.UserRepository.GetByIdAsync(id);
         // Apply the updates
         _mapper.Map(updatedUser, userEntity);
         _unitOfWork.UserRepository.Update(userEntity);
         await _unitOfWork.CommitAsync();
-        return _mapper.Map<UserDto>(userEntity);
+        return CustomResponseDto<UserDto>.Success(_mapper.Map<UserDto>(userEntity), "User updated.");
     }
 
-    public async Task<bool> DeleteUserAsync(Guid id)
+    public async Task<CustomResponseDto<bool>> DeleteUserAsync(Guid id)
     {
         var userEntity = await _unitOfWork.UserRepository.GetByIdAsync(id);
-        if (userEntity != null)
+        if (userEntity is null)
         {
-            _unitOfWork.UserRepository.Delete(userEntity);
-            await _unitOfWork.CommitAsync();
-            return true;
+            return CustomResponseDto<bool>.Error("User not found.");
         }
-        return false;
+
+        _unitOfWork.UserRepository.Delete(userEntity);
+        await _unitOfWork.CommitAsync();
+        return CustomResponseDto<bool>.Success(true, "User deleted.");
     }
 }
