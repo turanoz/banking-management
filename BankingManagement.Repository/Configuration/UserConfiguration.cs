@@ -11,10 +11,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
        
         builder.HasKey(u => u.UserId);
         builder.Property(u=>u.UserId).ValueGeneratedOnAdd();
-
-        builder.Property(u => u.Avatar)
-            .IsRequired(false)
-            .HasMaxLength(255);
         
         builder.Property(u => u.FirstName)
             .IsRequired()

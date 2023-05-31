@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using BankingManagement.Core.DTOs.Response
-@model BankingManagement.Core.DTOs.Response.CustomResponseDto<IEnumerable<BankingManagement.Core.DTOs.User.UserDto>>
+@model CustomResponseDto<IEnumerable<UserDto>>
 @{
     ViewData["Title"] = "Users";
 }
@@ -38,9 +38,6 @@
     @foreach (var user in Model.Data)
     {
         <tr>
-            <td>
-                <img src="@user.Avatar" alt="User avatar" width="50" height="50"/>
-            </td>
             <td>@user.FirstName</td>
             <td>@user.LastName</td>
             <td>@user.Email</td>

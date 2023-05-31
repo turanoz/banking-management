@@ -6,7 +6,7 @@ public class CustomResponseDto<T>
     public T? Data { get; set; }
     public ResponseStatus Status { get; set; }
     public List<string>? Errors { get; set; }
-
+    
     public static CustomResponseDto<T> Info(string message)
     {
         return new CustomResponseDto<T>

@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model BankingManagement.Core.DTOs.Response.CustomResponseDto<BankingManagement.Core.DTOs.User.UserUpdateDto>
+@model CustomResponseDto<UserUpdateDto>
 
 <h1>Edit User</h1>
 
@@ -26,11 +26,7 @@ else if (Model.Status == ResponseStatus.Info)
 }
 
 <form asp-action="Edit" >
-
-    <div class="form-group">
-        <label for="Avatar">Avatar</label>
-        <input type="text" class="form-control" id="Avatar" asp-for="Data.Avatar" placeholder="Enter avatar">
-    </div>
+    
     <div class="form-group">
         <label for="FirstName">First Name</label>
         <input type="text" class="form-control" id="FirstName" asp-for="Data.FirstName" placeholder="Enter first name">
