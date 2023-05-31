@@ -26,6 +26,19 @@ public class AccountService : IAccountService
             "Accounts found.");
     }
 
+    public async Task<CustomResponseDto<IEnumerable<AccountDto>>> GetAllAccountsByUserIdAsync(Guid userId)
+    {
+        var accounts = await _unitOfWork.AccountRepository.GetAll().Where(x => x.UserId == userId).ToListAsync();
+
+        if (accounts.Count == 0)
+        {
+            return CustomResponseDto<IEnumerable<AccountDto>>.Info("Accounts not found.");
+        }
+
+        return CustomResponseDto<IEnumerable<AccountDto>>.Success(_mapper.Map<IEnumerable<AccountDto>>(accounts),
+            "Accounts found.");
+    }
+
     public async Task<CustomResponseDto<AccountDto>> GetAccountByIdAsync(Guid id)
     {
         var account = await _unitOfWork.AccountRepository.GetByIdAsync(id);

@@ -1,0 +1,12 @@
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace BankingManagement.Web.Areas.Customer.Controllers;
+[Area("Customer")]
+public class HomeController : Controller
+{
+    // GET
+    public IActionResult Index()
+    {
+        return View();
+    }
+}

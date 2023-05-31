@@ -8,8 +8,8 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 {
     public void Configure(EntityTypeBuilder<Transaction> builder)
     {
-        builder.HasKey(t => t.TransactionId);
-        builder.Property(u=>u.TransactionId).ValueGeneratedOnAdd();
+        builder.HasKey(t => t.Id);
+        builder.Property(u=>u.Id).ValueGeneratedOnAdd();
 
         builder.Property(t => t.TransactionType)
             .IsRequired()
@@ -21,9 +21,6 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
 
         builder.Property(t => t.TransactionTime)
             .IsRequired();
-
-        builder.HasOne(t => t.Account)
-            .WithMany(a => a.Transactions)
-            .HasForeignKey(t => t.AccountId);
+        
     }
 }

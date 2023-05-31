@@ -12,12 +12,11 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<User, UserDto>()
-            .ForMember(dest => dest.RoleName, opt => opt.MapFrom(src => src.Role.Name));
 
+        CreateMap<UserDto, User>().ReverseMap();
         CreateMap<UserCreateDto, User>().ReverseMap();
 
-        CreateMap<UserUpdateDto, User>();
+        CreateMap<UserUpdateDto, User>().ReverseMap();
         
         CreateMap<Account, AccountDto>();
 

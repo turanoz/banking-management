@@ -8,9 +8,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-       
-        builder.HasKey(u => u.UserId);
-        builder.Property(u=>u.UserId).ValueGeneratedOnAdd();
         
         builder.Property(u => u.FirstName)
             .IsRequired()
@@ -23,28 +20,18 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Address)
             .IsRequired(false)
             .HasMaxLength(255);
-        
-        builder.Property(u => u.Email)
-            .IsRequired()
-            .HasMaxLength(100);
-        
-        builder.HasIndex(u => u.Email)
-            .IsUnique();
+       
+        builder
+            .HasMany(u => u.Accounts)
+            .WithOne(a => a.User)
+            .HasForeignKey(a => a.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(u => u.PasswordHash)
-            .IsRequired();
+        builder
+            .HasMany(u => u.AuditLogs)
+            .WithOne(al => al.User)
+            .HasForeignKey(al => al.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Property(u => u.Salt)
-            .IsRequired();
-
-        builder.Property(u => u.CreatedDate)
-            .IsRequired();
-
-        builder.Property(u => u.LastLoginDate)
-            .IsRequired();
-
-        builder.HasOne(u => u.Role)
-            .WithMany(r => r.Users)
-            .HasForeignKey(u => u.RoleId);
     }
 }

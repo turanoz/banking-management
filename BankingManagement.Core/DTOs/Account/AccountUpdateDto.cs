@@ -2,5 +2,6 @@
 
 public class AccountUpdateDto
 {
+    public decimal Name { get; set; }
     public decimal Balance { get; set; }
 }

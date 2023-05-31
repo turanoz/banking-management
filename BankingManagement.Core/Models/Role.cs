@@ -1,8 +1,7 @@
-﻿namespace BankingManagement.Core.Models;
+﻿using Microsoft.AspNetCore.Identity;
 
-public class Role
+namespace BankingManagement.Core.Models;
+
+public class Role : IdentityRole<Guid>
 {
-    public Guid RoleId { get; set; }
-    public string Name { get; set; } // e.g., "Admin", "Customer"
-    public ICollection<User> Users { get; set; } // Collection of users with this role
 }

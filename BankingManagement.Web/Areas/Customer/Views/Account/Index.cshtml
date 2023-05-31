@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Accounts";
+    Layout = "_Layout";
+}
+@model CustomResponseDto<IEnumerable<AccountDto>>
+
+<div class="d-flex justify-content-between my-4">
+    <h1>Accounts</h1>
+    <a type="submit" class="btn btn-primary d-inline-flex align-items-center justify-content-center" asp-area="Customer" asp-controller="Account" asp-action="Create">Create</a>
+</div>
+
+
+@if (Model.Status == ResponseStatus.Info)
+{
+    <div class="alert alert-info" role="alert">
+        @Model.Message
+    </div>
+}
+else if (Model.Status == ResponseStatus.Error)
+{
+    <div class="alert alert-danger" role="alert" >
+        @Model.Message
+    </div>
+}
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Account Name</th>
+        <th>Account Number</th>
+        <th>Account Type</th>
+        <th>Balance</th>
+        <th>Opened Date</th>
+        <th>Transactions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.Status == ResponseStatus.Success)
+    {
+        @foreach (var account in Model.Data)
+        {
+            <tr>
+                <td>@account.Name</td>
+                <td>@account.Number</td>
+                <td>@account.Type</td>
+                <td>@account.Balance</td>
+                <td>@account.OpenedDate</td>
+                <td>
+                    <a class="btn btn-primary" asp-area="Customer" asp-controller="Account" asp-action="Transaction" asp-route-accountNumber="@account.Number">Detail</a>
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

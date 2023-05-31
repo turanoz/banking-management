@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "_Layout";
+}
+
+<h1>Create Account</h1>
+<form>
+    <div class="mb-3">
+        <label for="accountNumber" class="form-label">Account Number:</label>
+        <input type="text" class="form-control" id="accountNumber" name="accountNumber" required>
+    </div>
+    <div class="mb-3">
+        <label for="balance" class="form-label">Balance:</label>
+        <input type="number" class="form-control" id="balance" name="balance" step="0.01" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

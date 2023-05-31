@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CustomResponseDto<IList<UserDto>>
+@{
+    ViewData["Title"] = "Users";
+}
+<h1>Users</h1>
+
+
+@switch (Model.Status)
+{
+    case ResponseStatus.Error:
+        <div class="alert alert-danger" role="alert">
+            @Model.Message
+        </div>
+        break;
+    case ResponseStatus.Info:
+        <div class="alert alert-info" role="alert">
+            @Model.Message
+        </div>
+        break;
+    default:
+        <div></div>
+        break;
+}
+
+<table class="table">
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Phone Number</th>
+        <th>Address</th>
+    </tr>
+    @foreach (var user in Model.Data)
+    {
+        <tr>
+            <td>@user.FirstName</td>
+            <td>@user.LastName</td>
+            <td>@user.Email</td>
+            <td>@user.PhoneNumber</td>
+            <td>@user.Address</td>
+        </tr>
+    }
+</table>

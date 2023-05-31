@@ -8,8 +8,8 @@ public class AuditLogConfiguration : IEntityTypeConfiguration<AuditLog>
 {
     public void Configure(EntityTypeBuilder<AuditLog> builder)
     {
-        builder.HasKey(a => a.AuditId);
-        builder.Property(a => a.AuditId).ValueGeneratedOnAdd();
+        builder.HasKey(a => a.Id);
+        builder.Property(a => a.Id).ValueGeneratedOnAdd();
 
         builder.Property(a => a.Action)
             .IsRequired()
@@ -20,9 +20,5 @@ public class AuditLogConfiguration : IEntityTypeConfiguration<AuditLog>
 
         builder.Property(a => a.IPAddress)
             .IsRequired();
-
-        builder.HasOne(a => a.User)
-            .WithMany(u => u.AuditLogs)
-            .HasForeignKey(a => a.UserId);
     }
 }
