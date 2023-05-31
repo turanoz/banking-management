@@ -21,7 +21,7 @@
     </button>
     <!-- Navbar Search-->
     <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        
+
     </div>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
@@ -31,10 +31,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li>
-                    <a class="dropdown-item" href="#!">Settings</a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#!">Activity Log</a>
+                    <a class="dropdown-item" asp-area="Admin" asp-controller="Profile" asp-action="Index">Settings</a>
                 </li>
                 <li>
                     <hr class="dropdown-divider"/>
@@ -65,11 +62,17 @@
                         </div>
                         Users
                     </a>
-                    <a class="nav-link" href="tables.html">
+                    <a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="Index">
                         <div class="sb-nav-link-icon">
-                            <i class="fas fa-table"></i>
+                            <i class="fas fa-users"></i>
                         </div>
-                        Tables
+                        Transactions
+                    </a>
+                    <a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="Index">
+                        <div class="sb-nav-link-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        Audit Logs
                     </a>
                 </div>
             </div>
