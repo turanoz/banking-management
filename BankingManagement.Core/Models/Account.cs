@@ -4,7 +4,6 @@ public class Account: BaseEntity
 {
     
     public string Name { get; set; } 
-    public string Number { get; set; } // Unique identifier for the account
     public string Type { get; set; } // e.g., "Savings", "Checking"
     public decimal Balance { get; set; }
     public DateTime OpenedDate { get; set; } // The date the account was opened

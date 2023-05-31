@@ -1,9 +1,51 @@
 ﻿@{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Transactions";
     Layout = "_Layout";
 }
 @model CustomResponseDto<IEnumerable<TransactionDto>>
 
+<div class="d-flex justify-content-between align-items-center my-4">
+
+    <h1> @ViewData["accountName"] - Transactions</h1>
 
 
+    <a type="submit" class="btn btn-primary d-inline-flex align-items-center justify-content-center" asp-area="Customer" asp-controller="Account" asp-action="TransactionCreate" asp-route-accountId="@ViewData["accountId"]">Create</a>
+</div>
 
+
+@if (Model.Status == ResponseStatus.Info)
+{
+    <div class="alert alert-info" role="alert">
+        @Model.Message
+    </div>
+}
+else if (Model.Status == ResponseStatus.Error)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.Message
+    </div>
+}
+
+<table class="table">
+    <thead>
+    <tr>
+        <th >Transaction Time</th>
+        <th >Transaction Type</th>
+        <th >Sender Account Number</th>
+        <th >Receiver Account Number</th>
+        <th >Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var transaction in Model.Data)
+    {
+        <tr>
+            <td>@transaction.TransactionTime.ToString("g")</td> <!-- Formats the DateTime to a short format -->
+            <td>@transaction.TransactionType</td>
+            <td>@transaction.Account.Id</td> <!-- Assumes your Account model has a Number property -->
+            <td>@transaction.ReceiverAccount.Id</td> <!-- Assumes your Account model has a Number property -->
+            <td>@transaction.Amount.ToString("C")</td> <!-- Formats the amount as currency -->
+        </tr>
+    }
+    </tbody>
+</table>

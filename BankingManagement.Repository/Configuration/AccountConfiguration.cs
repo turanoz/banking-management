@@ -12,7 +12,6 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
         builder.Property(a => a.Id).ValueGeneratedOnAdd();
 
         builder.Property(a => a.Name).IsRequired();
-        builder.Property(a => a.Number).IsRequired();
 
         builder.Property(a => a.Type).IsRequired().HasMaxLength(50);
 

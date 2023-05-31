@@ -97,7 +97,8 @@ public class TransactionService : ITransactionService
             TransactionType = "Deposit",
             Amount = transactionTransferDto.Amount,
             TransactionTime = DateTime.Now,
-            AccountId = receiverAccount.Id
+            AccountId = receiverAccount.Id,
+            ReceiverAccountId = senderAccount.Id
         };
         await _unitOfWork.TransactionRepository.CreateAsync(receiverTransaction);
 

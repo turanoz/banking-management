@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using BankingManagement.Core.DTOs.Account;
+using BankingManagement.Core.DTOs.Transaction;
 using BankingManagement.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,7 +46,28 @@ public class AccountController : Controller
     public async Task<IActionResult> Transaction(Guid accountId)
     {
         var transactions = await _transactionService.GetAllTransactionsByAccountIdAsync(accountId);
-
+        var account = await _accountService.GetAccountByIdAsync(accountId);
+        ViewData["accountName"] = account.Data.Name;
+        ViewData["accountId"] = accountId;
         return View(transactions);
+    }
+
+    public IActionResult TransactionCreate(Guid accountId)
+    {
+        var transactionTransferDto = new TransactionTransferDto
+        {
+            AccountId = accountId
+        };
+        return View(transactionTransferDto);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> TransactionCreate(TransactionTransferDto transactionTransferDto)
+    {
+        
+        var response = await _transactionService.CreateTransferTransactionAsync(transactionTransferDto);
+
+        ViewData["Errors"] = response.Errors;
+        return RedirectToAction(nameof(Transaction), new {accountId = transactionTransferDto.AccountId});
     }
 }

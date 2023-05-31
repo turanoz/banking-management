@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Craate Transaction";
+    Layout = "_Layout";
+}
+
+@model TransactionTransferDto
+
+<h1 class="my-4">Create Transaction Transfer</h1>
+<form asp-area="Customer" asp-controller="Account" asp-action="TransactionCreate">
+    <input type="hidden" asp-for="AccountId"/>
+    <div class="mb-3">
+        <label for="ReceiverAccountId" class="form-label">Receiver Account Number:</label>
+        <input type="text" class="form-control" asp-for="ReceiverAccountId" required>
+    </div>
+    <div class="mb-3">
+        <label for="Amount" class="form-label">Amount:</label>
+        <input type="number" class="form-control" asp-for="Amount" step="0.01" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

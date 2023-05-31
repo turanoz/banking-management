@@ -1,8 +1,27 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "Profile";
     Layout = "_Layout";
 }
+@model UserDto
 
-<h2>title</h2>
+<h1 class="my-4">My Profile</h1>
+<form asp-area="Customer" asp-controller="Profile" asp-action="Edit">
+    <input type="hidden" asp-for="Id"/>
+    <div class="mb-3">
+        <label for="FirstName" class="form-label">First Name:</label>
+        <input type="text" class="form-control" asp-for="FirstName" required>
+    </div>
+    <div class="mb-3">
+        <label for="FirstName" class="form-label">Last Name:</label>
+        <input type="text" class="form-control" asp-for="LastName" required>
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email:</label>
+        <input type="text" class="form-control" asp-for="Email" required>
+    </div>
+    <div class="mb-3">
+        <label for="PhoneNumber" class="form-label">Phone Number:</label>
+        <input type="text" class="form-control" asp-for="PhoneNumber" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
