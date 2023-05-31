@@ -7,5 +7,7 @@ public class Transaction:BaseEntity
     public decimal Amount { get; set; }
     public DateTime TransactionTime { get; set; }
     public Guid AccountId { get; set; }
+    public Guid ReceiverAccountId  { get; set; }
     public Account Account { get; set; } // Navigation property
+    public Account ReceiverAccount { get; set; } // Navigation property
 }

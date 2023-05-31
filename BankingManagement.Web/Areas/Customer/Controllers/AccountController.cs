@@ -11,10 +11,12 @@ namespace BankingManagement.Web.Areas.Customer.Controllers;
 public class AccountController : Controller
 {
     private readonly IAccountService _accountService;
+    private readonly ITransactionService _transactionService;
 
-    public AccountController(IAccountService accountService)
+    public AccountController(IAccountService accountService, ITransactionService transactionService)
     {
         _accountService = accountService;
+        _transactionService = transactionService;
     }
 
     // GET
@@ -40,8 +42,10 @@ public class AccountController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public Task<IActionResult> Transaction(Guid id)
+    public async Task<IActionResult> Transaction(Guid accountId)
     {
-        throw new NotImplementedException();
+        var transactions = await _transactionService.GetAllTransactionsByAccountIdAsync(accountId);
+
+        return View(transactions);
     }
 }

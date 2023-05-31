@@ -20,5 +20,9 @@ public class AccountConfiguration : IEntityTypeConfiguration<Account>
 
         builder.Property(a => a.OpenedDate)
             .IsRequired();
+        
+        builder.HasMany(e => e.Transactions)
+            .WithOne(e => e.Account)
+            .HasForeignKey(e => e.AccountId);
     }
 }

@@ -22,5 +22,15 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.Property(t => t.TransactionTime)
             .IsRequired();
         
+        builder.HasOne(e => e.Account)
+            .WithMany(e => e.Transactions)
+            .HasForeignKey(e => e.AccountId);
+
+        builder.HasOne(e => e.ReceiverAccount)
+            .WithMany()
+            .HasForeignKey(e => e.ReceiverAccountId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Restrict);
+        
     }
 }

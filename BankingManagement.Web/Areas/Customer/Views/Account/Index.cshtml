@@ -42,11 +42,18 @@ else if (Model.Status == ResponseStatus.Error)
             <tr>
                 <td>@account.Name</td>
                 <td>@account.Number</td>
-                <td>@account.Type</td>
+                @if(account.Type == "0")
+                {
+                    <td>Checking</td>
+                }
+                else if(account.Type == "1")
+                {
+                    <td>Savings</td>
+                }
                 <td>@account.Balance</td>
                 <td>@account.OpenedDate</td>
                 <td>
-                    <a class="btn btn-primary" asp-area="Customer" asp-controller="Account" asp-action="Transaction" asp-route-accountNumber="@account.Number">Detail</a>
+                    <a class="btn btn-primary" asp-area="Customer" asp-controller="Account" asp-action="Transaction" asp-route-accountId="@account.Id">Detail</a>
                 </td>
             </tr>
         }

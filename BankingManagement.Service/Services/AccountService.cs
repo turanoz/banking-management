@@ -53,6 +53,20 @@ public class AccountService : IAccountService
     public async Task<CustomResponseDto<AccountDto>> CreateAccountAsync(AccountCreateDto newAccount)
     {
         var accountEntity = _mapper.Map<Account>(newAccount);
+        Random random = new Random();
+        string accountNumber = "";
+
+        // Banka hesap numarası için istediğiniz uzunluğu belirleyebilirsiniz
+        int accountNumberLength = 10;
+
+        // Rastgele sayılarla hesap numarası oluşturma
+        for (int i = 0; i < accountNumberLength; i++)
+        {
+            accountNumber += random.Next(0, 10).ToString();
+        }
+
+        accountEntity.Number = accountNumber;
+        accountEntity.OpenedDate = DateTime.Now;
         await _unitOfWork.AccountRepository.CreateAsync(accountEntity);
         await _unitOfWork.CommitAsync();
 

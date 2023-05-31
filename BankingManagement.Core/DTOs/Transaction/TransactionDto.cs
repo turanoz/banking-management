@@ -2,9 +2,10 @@
 
 public class TransactionDto
 {
-    public Guid TransactionId { get; set; }
-    public Guid AccountId { get; set; }
+    public DateTime TransactionTime { get; set; }
+    public string TransactionType { get; set; } // e.g., "Deposit", "Withdrawal", "Transfer"
+    public Models.Account Account { get; set; } // Navigation property
+    public Models.Account ReceiverAccount { get; set; } // Navigation property
     public decimal Amount { get; set; }
-    public DateTime TransactionDate { get; set; }
-    public string TransactionType { get; set; }
+    
 }
