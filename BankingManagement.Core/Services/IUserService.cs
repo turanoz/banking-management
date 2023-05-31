@@ -8,6 +8,6 @@ public interface IUserService
     Task<CustomResponseDto<IEnumerable<UserDto>>> GetAllUsersAsync();
     Task<CustomResponseDto<UserDto>> GetUserByIdAsync(Guid id);
     Task<CustomResponseDto<UserDto>> CreateUserAsync(UserCreateDto newUser);
-    Task<CustomResponseDto<UserDto>> UpdateUserAsync(Guid id, UserUpdateDto updatedUser);
+    Task<CustomResponseDto<UserUpdateDto>> UpdateUserAsync(Guid id, UserUpdateDto updatedUser);
     Task<CustomResponseDto<bool>> DeleteUserAsync(Guid id);
 }

@@ -17,7 +17,7 @@ public class UserController : Controller
     public async Task<IActionResult> Index()
     {
         var users = await _userService.GetAllUsersAsync();
-        return View(users); // Pass the list of users to the view
+        return View(users);
     }
 
     public IActionResult Create()
@@ -58,12 +58,12 @@ public class UserController : Controller
             Address = userDto.Address,
             Avatar = userDto.Avatar
         };
-        return View(userUpdateDto);
+        return View(CustomResponseDto<UserUpdateDto>.Success(userUpdateDto));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, UserUpdateDto updateUser)
+    public async Task<IActionResult> Edit(Guid id, CustomResponseDto<UserUpdateDto> updateUser)
     {
         var user = await _userService.GetUserByIdAsync(id);
 
@@ -74,13 +74,12 @@ public class UserController : Controller
 
         if (ModelState.IsValid)
         {
-            var success = await _userService.UpdateUserAsync(id, updateUser);
-            if (success is not null)
-                return RedirectToAction(nameof(Index));
-            // Handle update failure
+            var success = await _userService.UpdateUserAsync(id, updateUser.Data);
+            if (success.Status == ResponseStatus.Success)
+                return View(success);
         }
 
-        return View(updateUser);
+        return View(CustomResponseDto<UserUpdateDto>.Error(updateUser.Data, "Update failed"));
     }
 
 

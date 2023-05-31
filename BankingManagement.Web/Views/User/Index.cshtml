@@ -9,11 +9,6 @@
 
 @switch (Model.Status)
 {
-    case ResponseStatus.Success:
-        <div class="alert alert-success" role="alert">
-            @Model.Message
-        </div>
-        break;
     case ResponseStatus.Error:
         <div class="alert alert-danger" role="alert">
             @Model.Message

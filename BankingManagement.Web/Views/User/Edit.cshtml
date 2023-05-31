@@ -1,29 +1,51 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model BankingManagement.Core.DTOs.User.UserUpdateDto
+@model BankingManagement.Core.DTOs.Response.CustomResponseDto<BankingManagement.Core.DTOs.User.UserUpdateDto>
 
 <h1>Edit User</h1>
 
-<form asp-action="Edit">
+@if (Model is { Status: ResponseStatus.Success,Message: not null })
+{
+    <div class="alert alert-success" role="alert">
+        @Model.Message
+    </div>
+}
+else if (Model.Status == ResponseStatus.Error)
+{
+    <div class="alert alert-danger" role="alert">
+        @foreach(var error in Model.Errors)
+        {
+            <p>@error</p>
+        }
+    </div>
+}
+else if (Model.Status == ResponseStatus.Info)
+{
+    <div class="alert alert-info" role="alert">
+        @Model.Message
+    </div>
+}
+
+<form asp-action="Edit" >
 
     <div class="form-group">
-            <label for="Avatar">Avatar</label>
-            <input type="text" class="form-control" id="Avatar" asp-for="Avatar" placeholder="Enter avatar">
-        </div>
+        <label for="Avatar">Avatar</label>
+        <input type="text" class="form-control" id="Avatar" asp-for="Data.Avatar" placeholder="Enter avatar">
+    </div>
     <div class="form-group">
         <label for="FirstName">First Name</label>
-        <input type="text" class="form-control" id="FirstName" asp-for="FirstName" placeholder="Enter first name">
+        <input type="text" class="form-control" id="FirstName" asp-for="Data.FirstName" placeholder="Enter first name">
     </div>
     <div class="form-group">
         <label for="LastName">Last Name</label>
-        <input type="text" class="form-control" id="LastName" asp-for="LastName" placeholder="Enter last name">
+        <input type="text" class="form-control" id="LastName" asp-for="Data.LastName" placeholder="Enter last name">
     </div>
     <div class="form-group">
         <label for="PhoneNumber">Phone Number</label>
-        <input type="text" class="form-control" id="PhoneNumber" asp-for="PhoneNumber" placeholder="Enter phone number">
+        <input type="text" class="form-control" id="PhoneNumber" asp-for="Data.PhoneNumber" placeholder="Enter phone number">
     </div>
     <div class="form-group">
         <label for="Address">Address</label>
-        <input type="text" class="form-control" id="Address" asp-for="Address" placeholder="Enter address">
+        <input type="text" class="form-control" id="Address" asp-for="Data.Address" placeholder="Enter address">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>

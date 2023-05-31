@@ -51,14 +51,13 @@ public class UserService : IUserService
         return CustomResponseDto<UserDto>.Success(_mapper.Map<UserDto>(userEntity), "User created.");
     }
 
-    public async Task<CustomResponseDto<UserDto>> UpdateUserAsync(Guid id, UserUpdateDto updatedUser)
+    public async Task<CustomResponseDto<UserUpdateDto>> UpdateUserAsync(Guid id, UserUpdateDto updatedUser)
     {
         var userEntity = await _unitOfWork.UserRepository.GetByIdAsync(id);
-        // Apply the updates
         _mapper.Map(updatedUser, userEntity);
         _unitOfWork.UserRepository.Update(userEntity);
         await _unitOfWork.CommitAsync();
-        return CustomResponseDto<UserDto>.Success(_mapper.Map<UserDto>(userEntity), "User updated.");
+        return CustomResponseDto<UserUpdateDto>.Success(_mapper.Map<UserUpdateDto>(userEntity), "User updated.");
     }
 
     public async Task<CustomResponseDto<bool>> DeleteUserAsync(Guid id)
