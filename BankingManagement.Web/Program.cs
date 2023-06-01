@@ -6,7 +6,6 @@ using BankingManagement.Repository;
 using BankingManagement.Repository.Repositories;
 using BankingManagement.Repository.UnitOfWorks;
 using BankingManagement.Service.Services;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

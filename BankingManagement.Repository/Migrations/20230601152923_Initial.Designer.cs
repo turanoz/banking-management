@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BankingManagement.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230531201820_updated")]
-    partial class updated
+    [Migration("20230601152923_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

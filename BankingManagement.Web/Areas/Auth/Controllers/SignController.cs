@@ -64,7 +64,7 @@ namespace BankingManagement.Web.Areas.Auth.Controllers
                     await _auditLogService.CreateAuditLogAsync(user.Id, AuditLogConstant.LoginFailed);
                 }
 
-                ModelState.AddModelError(string.Empty, "Geçersiz giriş denemesi.");
+                ModelState.AddModelError(string.Empty, "Email or password is invalid.");
             }
 
             return View(loginDto);
