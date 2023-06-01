@@ -1,0 +1,139 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model UserDto
+@{
+    ViewData["Title"] = "Users Detail";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">User Detail</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-area="Admin" asp-controller="Home">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Users</li>
+    </ol>
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+            <table class="table">
+
+                <tr>
+                    <td>First Name</td>
+                    <td>@Model.FirstName</td>
+                </tr>
+                <tr>
+                    <td>Last Name</td>
+                    <td>@Model.LastName</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>@Model.Email</td>
+                </tr>
+
+                <tr>
+                    <td>Phone Number</td>
+                    <td>@Model.PhoneNumber</td>
+                </tr>
+
+                <tr>
+                    <td>Address</td>
+                    <td>@Model.Address</td>
+                </tr>
+
+            </table>
+
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">Accounts</div>
+        <div class="card-body">
+            <table id="datatablesSimple3">
+                <thead>
+                <tr>
+                    <th>Account Number</th>
+                    <th>Account Name</th>
+                    <th>Account Type</th>
+                    <th>Balance</th>
+                    <th>Opened Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var account in Model.Accounts)
+                {
+                    <tr>
+                        <td>@account.Id</td> <!-- Formats the DateTime to a short format -->
+                        <td>@account.Name</td>
+                        <td>@account.Type</td>
+                        <td>@account.Balance</td> <!-- Assumes your Account model has a Number property -->
+                        <td>@account.OpenedDate</td> <!-- Assumes your Account model has a Number property -->
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">Transactions</div>
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                <tr>
+                    <th >Transaction Time</th>
+                    <th >Transaction Type</th>
+                    <th >Sender Account Number</th>
+                    <th >Receiver Account Number</th>
+                    <th >Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var account in Model.Accounts)
+                {
+                    @foreach (var transaction in account.Transactions)
+                    {
+                        <tr>
+                            <td>@transaction.TransactionTime.ToString("g")</td> <!-- Formats the DateTime to a short format -->
+                            <td>@transaction.TransactionType</td>
+                            <td>@transaction.Account.Id</td> <!-- Assumes your Account model has a Number property -->
+                            <td>@transaction.ReceiverAccount.Id</td> <!-- Assumes your Account model has a Number property -->
+                            <td>@transaction.Amount.ToString("C")</td> <!-- Formats the amount as currency -->
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">Audit Logs</div>
+        <div class="card-body">
+            <table id="datatablesSimple2">
+                <thead>
+                <tr>
+                    <th >Action Date</th>
+                    <th >Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var auditLog in Model.AuditLogs)
+                {
+                    <tr>
+                        <td>@auditLog.ActionTime.ToString("g")</td>
+                        <td>@auditLog.Action</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/datatables-simple-demo.js"></script>
+}

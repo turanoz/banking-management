@@ -5,8 +5,10 @@ using BankingManagement.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BankingManagement.Web.Areas.Admin.Controllers;
+
 [Area("Admin")]
 [Authorize(Roles = "Admin")]
 public class UserController : Controller
@@ -30,5 +32,19 @@ public class UserController : Controller
         }
 
         return View(CustomResponseDto<IList<UserDto>>.Success(usersDto));
+    }
+
+    public async Task<IActionResult> Detail(Guid id)
+    {
+        var user = await _userManager.Users
+            .Include(x => x.Accounts)
+            .ThenInclude(x=>x.Transactions.OrderByDescending(x=>x.TransactionTime))
+            .Include(x => x.AuditLogs.OrderByDescending(x=>x.ActionTime))
+            .Where(x => x.Id == id)
+            .SingleAsync();
+
+        var userDto = _mapper.Map<UserDto>(user);
+
+        return View(userDto);
     }
 }

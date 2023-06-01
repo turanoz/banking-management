@@ -42,6 +42,7 @@
                     <th>Email</th>
                     <th>Phone Number</th>
                     <th>Address</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
 
@@ -54,6 +55,9 @@
                         <td>@user.Email</td>
                         <td>@user.PhoneNumber</td>
                         <td>@user.Address</td>
+                        <td>
+                            <a asp-action="Detail" asp-area="Admin" asp-controller="User" asp-route-id="@user.Id" class="btn btn-primary">Detail</a>
+                        </td>
                     </tr>
                 }
                 </tbody>
