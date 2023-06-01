@@ -6,6 +6,7 @@ using BankingManagement.Repository;
 using BankingManagement.Repository.Repositories;
 using BankingManagement.Repository.UnitOfWorks;
 using BankingManagement.Service.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,7 +44,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    // app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/Error");
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -53,12 +55,15 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseStatusCodePagesWithReExecute("/Errors/{0}");
+
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area=Auth}/{controller=Sign}/{action=Login}/{id?}");
+    pattern: "{area:exists=Auth}/{controller=Sign}/{action=Login}/{id?}");
 
 app.Run();

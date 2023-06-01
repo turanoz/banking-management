@@ -21,7 +21,7 @@ public class TransactionService : ITransactionService
 
     public async Task<CustomResponseDto<IEnumerable<TransactionDto>>> GetAllTransactionsAsync()
     {
-        var transactions = await _unitOfWork.TransactionRepository.GetAll().ToListAsync();
+        var transactions = await _unitOfWork.TransactionRepository.GetAll().Include(x=>x.Account).Include(x=>x.ReceiverAccount).ToListAsync();
         return CustomResponseDto<IEnumerable<TransactionDto>>.Success(
             _mapper.Map<IEnumerable<TransactionDto>>(transactions),
             "Transactions found.");

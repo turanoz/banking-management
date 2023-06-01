@@ -1,0 +1,65 @@
+﻿@model CustomResponseDto<IEnumerable<TransactionDto>>
+@{
+    ViewBag.Title = "Transactions";
+    Layout = "_Layout";
+}
+
+@if (Model.Status == ResponseStatus.Info)
+{
+    <div class="alert alert-info" role="alert">
+        @Model.Message
+    </div>
+}
+else if (Model.Status == ResponseStatus.Error)
+{
+    @foreach (var modelError in Model.Errors)
+    {
+        <div class="alert alert-danger" role="alert">
+            @modelError
+        </div>
+    }
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Transactions</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-area="Admin" asp-controller="Home">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Transactions</li>
+    </ol>
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                <tr>
+                    <th >Transaction Time</th>
+                    <th >Transaction Type</th>
+                    <th >Sender Account Number</th>
+                    <th >Receiver Account Number</th>
+                    <th >Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var transaction in Model.Data)
+                {
+                    <tr>
+                        <td>@transaction.TransactionTime.ToString("g")</td> <!-- Formats the DateTime to a short format -->
+                        <td>@transaction.TransactionType</td>
+                        <td>@transaction.Account.Id</td> <!-- Assumes your Account model has a Number property -->
+                        <td>@transaction.ReceiverAccount.Id</td> <!-- Assumes your Account model has a Number property -->
+                        <td>@transaction.Amount.ToString("C")</td> <!-- Formats the amount as currency -->
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/datatables-simple-demo.js"></script>
+}

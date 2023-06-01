@@ -1,11 +1,13 @@
 ﻿using System.Security.Claims;
 using BankingManagement.Core.DTOs.User;
 using BankingManagement.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BankingManagement.Web.Areas.Admin.Controllers;
 [Area("Admin")]
+[Authorize(Roles = "Admin")]
 public class ProfileController : Controller
 {
     // GET

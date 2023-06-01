@@ -49,32 +49,33 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    <a class="nav-link @(Context.Request.RouteValues["controller"].ToString() == "Home" && Context.Request.RouteValues["action"].ToString() == "Index" && Context.Request.RouteValues["area"].ToString() == "Admin" ? "active" : "")" asp-area="Admin" asp-controller="Home" asp-action="Index">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-tachometer-alt"></i>
                         </div>
                         Dashboard
                     </a>
                     <div class="sb-sidenav-menu-heading">Interface</div>
-                    <a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="Index">
+                    <a class="nav-link @(Context.Request.RouteValues["controller"].ToString() == "User" && Context.Request.RouteValues["action"].ToString() == "Index" && Context.Request.RouteValues["area"].ToString() == "Admin" ? "active" : "")" asp-area="Admin" asp-controller="User" asp-action="Index">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         Users
                     </a>
-                    <a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="Index">
+                    <a class="nav-link @(Context.Request.RouteValues["controller"].ToString() == "Transaction" && Context.Request.RouteValues["action"].ToString() == "Index" && Context.Request.RouteValues["area"].ToString() == "Admin" ? "active" : "")" asp-area="Admin" asp-controller="Transaction" asp-action="Index">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         Transactions
                     </a>
-                    <a class="nav-link" asp-area="Admin" asp-controller="User" asp-action="Index">
+                    <a class="nav-link @(Context.Request.RouteValues["controller"].ToString() == "AuditLog" && Context.Request.RouteValues["action"].ToString() == "Index" && Context.Request.RouteValues["area"].ToString() == "Admin" ? "active" : "")" asp-area="Admin" asp-controller="AuditLog" asp-action="Index">
                         <div class="sb-nav-link-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         Audit Logs
                     </a>
                 </div>
+
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
@@ -89,12 +90,7 @@
         <footer class="py-4 bg-light mt-auto">
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; Your Website 2023</div>
-                    <div>
-                        <a href="#">Privacy Policy</a>
-                        &middot;
-                        <a href="#">Terms &amp; Conditions</a>
-                    </div>
+                    <div class="text-muted">Copyright &copy; Banking Management 2023</div>
                 </div>
             </div>
         </footer>

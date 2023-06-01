@@ -39,4 +39,8 @@
       <AdditionalFiles Include="Areas\Admin\Views\User\Index.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Views\Shared\" />
+    </ItemGroup>
+
 </Project>

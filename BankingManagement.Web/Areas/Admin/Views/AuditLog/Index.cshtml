@@ -1,0 +1,62 @@
+﻿@model CustomResponseDto<IEnumerable<AuditLogDto>>
+@{
+    ViewBag.Title = "Audit Logs";
+    Layout = "_Layout";
+}
+
+@if (Model.Status == ResponseStatus.Info)
+{
+    <div class="alert alert-info" role="alert">
+        @Model.Message
+    </div>
+}
+else if (Model.Status == ResponseStatus.Error)
+{
+    @foreach (var modelError in Model.Errors)
+    {
+        <div class="alert alert-danger" role="alert">
+            @modelError
+        </div>
+    }
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Audit Logs</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item">
+            <a asp-action="Index" asp-area="Admin" asp-controller="Home">Dashboard</a>
+        </li>
+        <li class="breadcrumb-item active">Audit Logs</li>
+    </ol>
+
+    <div class="card mb-4">
+
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
+                <tr>
+                    <th >Action Date</th>
+                    <th >User Id</th>
+                    <th >Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var auditLog in Model.Data)
+                {
+                    <tr>
+                        <td>@auditLog.ActionDate.ToString("g")</td>
+                        <td>@auditLog.UserId</td>
+                        <td>@auditLog.Action</td>
+
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/datatables-simple-demo.js"></script>
+}

@@ -1,8 +1,14 @@
-﻿namespace BankingManagement.Core.DTOs.Sign;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BankingManagement.Core.DTOs.Sign;
 
 public class LoginDto
 {
+    [Required(ErrorMessage = "Email is required")]
     public string Email { get; set; }
+
+    [Required(ErrorMessage = "Password is required")]
     public string Password { get; set; }
+
     public bool RememberMe { get; set; }
 }
