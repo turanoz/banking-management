@@ -17,30 +17,4 @@
       </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\_AdminLayout.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\_AuthLayout.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Sign\Login.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Sign\Register.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Auth\Views\Shared\_AuthLayout.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Auth\Views\Sign\Login.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Auth\Views\Sign\Register.cshtml" />
-      <_ContentIncludedByDefault Remove="Areas\Auth\Views\_ViewImports.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Areas\Admin\Views\User\Index.cshtml" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Views\Shared\" />
-    </ItemGroup>
-
 </Project>

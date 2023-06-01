@@ -27,8 +27,26 @@ namespace BankingManagement.Web.Areas.Auth.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            var isAuthenticated = HttpContext.User.Identity.IsAuthenticated;
+
+            if (isAuthenticated)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await _userManager.FindByIdAsync(userId);
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains("Admin"))
+                {
+                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                }
+                else if (roles.Contains("Customer"))
+                {
+                    await _auditLogService.CreateAuditLogAsync(user.Id, AuditLogConstant.Login);
+                    return RedirectToAction("Index", "Home", new { area = "Customer" });
+                }
+            }
+
             return View(new LoginDto());
         }
 
