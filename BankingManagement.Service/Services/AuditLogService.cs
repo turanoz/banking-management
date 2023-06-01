@@ -24,7 +24,7 @@ public class AuditLogService : IAuditLogService
 
     public async Task<CustomResponseDto<IEnumerable<AuditLogDto>>> GetAllAuditLogsAsync()
     {
-        var auditLogs = await _unitOfWork.AuditLogRepository.GetAll().ToListAsync();
+        var auditLogs = await _unitOfWork.AuditLogRepository.GetAll().OrderByDescending(x=>x.ActionTime).ToListAsync();
         return CustomResponseDto<IEnumerable<AuditLogDto>>.Success(_mapper.Map<IEnumerable<AuditLogDto>>(auditLogs),
             "AuditLogs found.");
     }

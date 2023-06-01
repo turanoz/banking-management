@@ -44,7 +44,7 @@ else if (Model.Status == ResponseStatus.Error)
                 @foreach (var auditLog in Model.Data)
                 {
                     <tr>
-                        <td>@auditLog.ActionDate.ToString("g")</td>
+                        <td>@auditLog.ActionTime.ToString("g")</td>
                         <td>@auditLog.UserId</td>
                         <td>@auditLog.Action</td>
 

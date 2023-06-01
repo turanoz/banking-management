@@ -101,10 +101,10 @@ namespace BankingManagement.Web.Areas.Auth.Controllers
                         }
                     }
 
-                    await _userManager.AddToRoleAsync(user, "Admin"); // Varsayılan olarak "Customer" rolü atanıyor
+                    await _userManager.AddToRoleAsync(user, "Customer");
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home", new { area = "Customer" });
                 }
 
                 foreach (var error in result.Errors)
