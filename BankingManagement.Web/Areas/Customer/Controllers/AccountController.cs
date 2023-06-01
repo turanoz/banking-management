@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using BankingManagement.Core.Constants;
 using BankingManagement.Core.DTOs.Account;
 using BankingManagement.Core.DTOs.Transaction;
 using BankingManagement.Core.Services;
@@ -13,18 +14,22 @@ public class AccountController : Controller
 {
     private readonly IAccountService _accountService;
     private readonly ITransactionService _transactionService;
+    private readonly IAuditLogService _auditLogService;
 
-    public AccountController(IAccountService accountService, ITransactionService transactionService)
+    public AccountController(IAccountService accountService, ITransactionService transactionService, IAuditLogService auditLogService)
     {
         _accountService = accountService;
         _transactionService = transactionService;
+        _auditLogService = auditLogService;
     }
 
     // GET
     public async Task<IActionResult> Index()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        await _auditLogService.CreateAuditLogAsync(Guid.Parse(userId), AuditLogConstant.ViewAccountList);
         var accounts = await _accountService.GetAllAccountsByUserIdAsync(Guid.Parse(userId));
+        
         return View(accounts);
     }
 
@@ -39,6 +44,8 @@ public class AccountController : Controller
         accountCreateDto.UserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
         await _accountService.CreateAccountAsync(accountCreateDto);
+        
+        await _auditLogService.CreateAuditLogAsync(accountCreateDto.UserId, AuditLogConstant.CreateAccount);
 
         return RedirectToAction(nameof(Index));
     }
@@ -49,6 +56,10 @@ public class AccountController : Controller
         var account = await _accountService.GetAccountByIdAsync(accountId);
         ViewData["accountName"] = account.Data.Name;
         ViewData["accountId"] = accountId;
+        
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        await _auditLogService.CreateAuditLogAsync(Guid.Parse(userId), AuditLogConstant.ViewTransactionList);
         return View(transactions);
     }
 
@@ -64,9 +75,12 @@ public class AccountController : Controller
     [HttpPost]
     public async Task<IActionResult> TransactionCreate(TransactionTransferDto transactionTransferDto)
     {
-        
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
         var response = await _transactionService.CreateTransferTransactionAsync(transactionTransferDto);
 
+        await _auditLogService.CreateAuditLogAsync(Guid.Parse(userId), AuditLogConstant.CreateTransaction);
+        
         ViewData["Errors"] = response.Errors;
         return RedirectToAction(nameof(Transaction), new {accountId = transactionTransferDto.AccountId});
     }

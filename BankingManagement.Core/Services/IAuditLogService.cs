@@ -7,5 +7,5 @@ public interface IAuditLogService
 {
     Task<CustomResponseDto<IEnumerable<AuditLogDto>>> GetAllAuditLogsAsync();
     Task<CustomResponseDto<AuditLogDto>> GetAuditLogByIdAsync(Guid id);
-    Task<CustomResponseDto<AuditLogDto>> CreateAuditLogAsync(AuditLogCreateDto newAuditLog);
+    Task<CustomResponseDto<AuditLogDto>> CreateAuditLogAsync(Guid userId,string action);
 }

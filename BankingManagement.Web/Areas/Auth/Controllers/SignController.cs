@@ -1,5 +1,8 @@
-﻿using BankingManagement.Core.DTOs.Sign;
+﻿using System.Security.Claims;
+using BankingManagement.Core.Constants;
+using BankingManagement.Core.DTOs.Sign;
 using BankingManagement.Core.Models;
+using BankingManagement.Core.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,14 +14,16 @@ namespace BankingManagement.Web.Areas.Auth.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<Role> _roleManager;
+        private readonly IAuditLogService _auditLogService;
 
 
         public SignController(UserManager<User> userManager, SignInManager<User> signInManager,
-            RoleManager<Role> roleManager)
+            RoleManager<Role> roleManager, IAuditLogService auditLogService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _auditLogService = auditLogService;
         }
 
         [HttpGet]
@@ -39,9 +44,9 @@ namespace BankingManagement.Web.Areas.Auth.Controllers
                     lockoutOnFailure: false
                 );
 
+                var user = await _userManager.FindByEmailAsync(loginDto.Email);
                 if (result.Succeeded)
                 {
-                    var user = await _userManager.FindByEmailAsync(loginDto.Email);
                     var roles = await _userManager.GetRolesAsync(user);
                     if (roles.Contains("Admin"))
                     {
@@ -49,8 +54,14 @@ namespace BankingManagement.Web.Areas.Auth.Controllers
                     }
                     else if (roles.Contains("Customer"))
                     {
+                        await _auditLogService.CreateAuditLogAsync(user.Id, AuditLogConstant.Login);
                         return RedirectToAction("Index", "Home", new { area = "Customer" });
                     }
+                }
+
+                if (user != null)
+                {
+                    await _auditLogService.CreateAuditLogAsync(user.Id, AuditLogConstant.LoginFailed);
                 }
 
                 ModelState.AddModelError(string.Empty, "Geçersiz giriş denemesi.");
@@ -105,10 +116,20 @@ namespace BankingManagement.Web.Areas.Auth.Controllers
             return View(registerDto);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
+            var userId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            await _auditLogService.CreateAuditLogAsync(userId, AuditLogConstant.Logout);
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login", "Sign");
+        }
+
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }
