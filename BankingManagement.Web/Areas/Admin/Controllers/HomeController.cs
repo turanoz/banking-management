@@ -9,9 +9,6 @@ namespace BankingManagement.Web.Areas.Admin.Controllers;
 
 public class HomeController : Controller
 {
-    // GET
-
-   
     public IActionResult Index()
     {
         return View();

@@ -14,6 +14,7 @@ public class AuditLogConstant
     public const string ProfileView = "Profile Viewed";
     public const string ProfileUpdate = "Profile Updated";
     public const string PasswordChange = "Password Changed";
+    public const string ViewAuditLog = "View Audit Log";
 
     public string ViewAccount(Guid accountId)
     {
